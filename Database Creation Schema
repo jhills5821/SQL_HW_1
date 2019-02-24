@@ -1,0 +1,96 @@
+CREATE TABLE "departments" (
+    "id"  SERIAL  NOT NULL,
+    "dept_no" varchar(5)   NOT NULL,
+    "dept_name" varchar(25)   NOT NULL,
+    CONSTRAINT "pk_departments" PRIMARY KEY (
+        "id"
+     ),
+    CONSTRAINT "uc_departments_dept_no" UNIQUE (
+        "dept_no"
+    )
+);
+
+CREATE TABLE "employees" (
+    "id"  SERIAL  NOT NULL,
+    "emp_no" int   NOT NULL,
+    "birth_date" date   NOT NULL,
+    "first_name" varchar(25)   NOT NULL,
+    "last_name" varchar(25)   NOT NULL,
+    "gender" varchar(5)   NOT NULL,
+    "hire_date" date   NOT NULL,
+    CONSTRAINT "pk_employees" PRIMARY KEY (
+        "id"
+     ),
+    CONSTRAINT "uc_employees_emp_no" UNIQUE (
+        "emp_no"
+    )
+);
+
+CREATE TABLE "titles" (
+    "id"  SERIAL  NOT NULL,
+    "emp_no" int   NOT NULL,
+    "title" varchar(25)   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL,
+    CONSTRAINT "pk_titles" PRIMARY KEY (
+        "id"
+     )
+);
+
+CREATE TABLE "salaries" (
+    "id"  SERIAL  NOT NULL,
+    "emp_no" int   NOT NULL,
+    "salary" int   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL,
+    CONSTRAINT "pk_salaries" PRIMARY KEY (
+        "id"
+     )
+);
+
+CREATE TABLE "department_manager" (
+    "id"  SERIAL  NOT NULL,
+    "dept_no" varchar(5)   NOT NULL,
+    "emp_no" int   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL,
+    CONSTRAINT "pk_department_manager" PRIMARY KEY (
+        "id"
+     )
+);
+
+CREATE TABLE "department_employees" (
+    "id"  SERIAL  NOT NULL,
+    "emp_no" int   NOT NULL,
+    "dept_no" varchar(5)   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL,
+    CONSTRAINT "pk_department_employees" PRIMARY KEY (
+        "id"
+     )
+);
+
+ALTER TABLE "titles" ADD CONSTRAINT "fk_titles_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "department_manager" ADD CONSTRAINT "fk_department_manager_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
+
+ALTER TABLE "department_manager" ADD CONSTRAINT "fk_department_manager_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "department_employees" ADD CONSTRAINT "fk_department_employees_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "department_employees" ADD CONSTRAINT "fk_department_employees_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
+
+SELECT * FROM department_employees LIMIT 100;
+SELECT * FROM department_manager LIMIT 100;
+SELECT * FROM departments LIMIT 100;
+SELECT * FROM employees LIMIT 100;
+SELECT * FROM salaries LIMIT 100;
+SELECT * FROM titles LIMIT 100;
