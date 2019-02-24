@@ -1,1 +1,48 @@
+-- Data Analysis Questions
 
+-- Question 1
+SELECT employees.emp_no, employees.last_name, employees.first_name, employees.gender, salaries.salary
+FROM salaries
+INNER JOIN employees on salaries.emp_no = employees.emp_no;
+
+-- Question 2
+SELECT *
+FROM employees
+WHERE hire_date BETWEEN '1986/1/1' AND '1986/12/31';
+
+-- Question 3
+SELECT departments.dept_no, departments.dept_name, department_manager.emp_no, employees.last_name, employees.first_name, department_manager.from_date, department_manager.to_date
+FROM departments
+LEFT JOIN department_manager on departments.dept_no=department_manager.dept_no
+LEFT JOIN employees on employees.emp_no=department_manager.emp_no;
+
+-- Question 4
+SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
+FROM departments
+LEFT JOIN department_employees on department_employees.dept_no = departments.dept_no
+LEFT JOIN employees on department_employees.emp_no = employees.emp_no;
+
+-- Question 5
+SELECT *
+FROM employees
+WHERE first_name = 'Hercules' AND last_name LIKE 'B%';
+
+-- Question 6
+SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
+FROM departments
+LEFT JOIN department_employees on department_employees.dept_no = departments.dept_no
+LEFT JOIN employees on department_employees.emp_no = employees.emp_no
+WHERE departments.dept_name = 'Sales';
+
+-- Question 7
+SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
+FROM departments
+LEFT JOIN department_employees on department_employees.dept_no = departments.dept_no
+LEFT JOIN employees on department_employees.emp_no = employees.emp_no
+WHERE departments.dept_name = 'Sales' OR departments.dept_name = 'Development';
+
+-- Question 8
+SELECT employees.last_name, count(employees.last_name) as Count
+FROM employees
+GROUP BY employees.last_name
+ORDER BY Count DESC;
